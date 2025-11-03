@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Operaciones{% endblock %}
+{% block content %}
+<h2>Operaciones</h2>
+<div id="listaOps"></div>
+
+<div class="form-card">
+  <h3>Nueva operación</h3>
+  <select id="selTipo">
+    <option>Cash</option>
+    <option>Envío</option>
+    <option>Depósito</option>
+    <option>Retirada</option>
+  </select>
+  <input id="inpCliente" placeholder="Cliente" />
+  <input id="inpImporte" placeholder="Importe (€)" />
+  <input id="inpUSDT" placeholder="USDT (si aplica)" />
+  <select id="selEstado">
+    <option>Finalizada</option>
+    <option>Recogida pendiente</option>
+    <option>Recogida completada</option>
+  </select>
+  <button id="btnAdd" class="btn-primary">Guardar</button>
+  <button id="btnRef" class="btn-secondary">Refrescar</button>
+</div>
+
+<script>
+async function cargar(){
+  const res = await fetch('/api/operaciones');
+  const ops = await res.json();
+  const cont = document.getElementById('listaOps');
+  cont.innerHTML = ops.map(op => `
+    <div class="op-item">
+      <div class="op-left">
+        <strong>${op.id}</strong> • ${op.cliente}
+        <div class="muted">${op.fecha}</div>
+      </div>
+      <div class="op-right">
+        <div class="tipo">${op.tipo}</div>
+        <div class="importe">€${Number(op.importe).toFixed(2)}</div>
+        <div class="estado">${op.estado}</div>
+        <div class="op-actions">
+          <button onclick="editar(${op.id})">✏️</button>
+          <button onclick="borrar(${op.id})">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function borrar(id){
+  if(!confirm('Marcar operación como eliminada?')) return;
+  await fetch('/api/operaciones/' + id, { method: 'DELETE' });
+  cargar();
+}
+
+async function editar(id){
+  const cli = prompt('Nuevo cliente:');
+  if (cli === null) return;
+  const imp = prompt('Nuevo importe (€):', '0');
+  const usdt = prompt('Nuevo USDT (si aplica):', '0');
+  const tipo = prompt('Tipo:', 'Cash');
+  const estado = prompt('Estado:', 'Finalizada');
+  await fetch('/api/operaciones/' + id, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ cliente: cli, importe: Number(imp||0), usdt: Number(usdt||0), tipo: tipo, estado: estado })
+  });
+  cargar();
+}
+
+document.getElementById('btnAdd').addEventListener('click', async function(){
+  const tipo = document.getElementById('selTipo').value;
+  const cliente = document.getElementById('inpCliente').value;
+  const importe = Number(document.getElementById('inpImporte').value || 0);
+  const usdt = Number(document.getElementById('inpUSDT').value || 0);
+  const estado = document.getElementById('selEstado').value;
+  await fetch('/api/operaciones', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ tipo, cliente, importe, usdt, estado })
+  });
+  cargar();
+});
+
+document.getElementById('btnRef').addEventListener('click', cargar);
+cargar();
+</script>
+{% endblock %}
