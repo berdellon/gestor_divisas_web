@@ -1,0 +1,21 @@
+/* básico y responsive */
+:root{--accent:#6B46C1;--bg:#FBFAFF;--muted:#777}
+body,html{margin:0;padding:0;font-family:system-ui,Arial;background:var(--bg);color:#222}
+.container{max-width:720px;margin:0 auto;padding:12px}
+.navbar{background:var(--accent);color:#fff;padding:12px;border-radius:8px;text-align:center}
+.footer{text-align:center;margin-top:14px;color:#666}
+.home-grid{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.card{display:block;padding:14px;background:#fff;border-radius:8px;text-decoration:none;color:#222;box-shadow:0 2px 6px rgba(0,0,0,.06);text-align:center;font-weight:600}
+.converter-row{text-align:center;margin-top:12px}
+.btn-circle{width:86px;height:86px;border-radius:50%;font-size:20px;margin:8px;color:#fff;border:none}
+.btn-primary{background:#0EA5E9;color:#fff;padding:10px;border:none;border-radius:8px}
+.btn-secondary{background:#94A3B8;color:#fff;padding:8px;border:none;border-radius:8px}
+.form-card{background:#fff;padding:12px;border-radius:8px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.input, input, select{display:block;width:100%;padding:8px;margin:8px 0;border-radius:6px;border:1px solid #e6e6e6}
+.op-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#fff;border-radius:8px;margin:8px 0}
+.op-left{flex:1}
+.op-right{text-align:right}
+.op-actions button{margin-left:6px}
+.muted{color:var(--muted);font-size:12px}
+.status{color:#b91c1c;margin-top:8px}
+.login-card{max-width:420px;margin:0 auto}
