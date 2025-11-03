@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="home-grid">
+  <a class="card" href="/operaciones">📋 Ver Operaciones</a>
+  <a class="card" href="/login">🔐 Login</a>
+  <div class="converter-row">
+    <button class="btn-circle" id="convManual">💱 € → $</button>
+    <button class="btn-circle" id="convXE">🌐 XE</button>
+  </div>
+</div>
+{% endblock %}
