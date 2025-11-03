@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card login-card">
+  <h2>Acceder</h2>
+  <input id="usuario" placeholder="Usuario" />
+  <input id="pin" placeholder="PIN" type="password" />
+  <button id="btnLogin" class="btn-primary">Entrar</button>
+  <div id="status" class="status"></div>
+  <div class="users-list">
+    <p>Usuarios disponibles (local demo): Dani, Camilo</p>
+  </div>
+</div>
+<script>
+document.getElementById('btnLogin').addEventListener('click', function(){
+  const u = document.getElementById('usuario').value.trim();
+  const p = document.getElementById('pin').value.trim();
+  // demo simple: aceptamos Dani/1319 y Camilo/3852 localmente (frontend demo)
+  if ((u === 'Dani' && p === '1319') || (u === 'Camilo' && p === '3852')) {
+    location.href = '/';
+  } else {
+    document.getElementById('status').textContent = 'Usuario o PIN incorrecto';
+  }
+});
+</script>
+{% endblock %}
